@@ -30,7 +30,7 @@
 			<!-- items de la navbar à partir de la droite -->
 			<ul class="nav navbar-nav navbar-right">
 				<!-- bouton pour se connecter -->
-				<li><a href="Connection.php">Se connecter</a></li>
+				<li><a href="connexion.php">Se connecter</a></li>
 				<!-- bouton pour s'inscrire -->
 				<!-- <li><a href="#">S'inscrire</a></li> -->
 			</ul>
