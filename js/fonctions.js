@@ -40,7 +40,7 @@ function estEntier(unId)
 {
   document.getElementById(unId).value = document.getElementById(unId).value.trim();
   var regex = new RegExp("^[0-9]+$");
-  if (regex.test(document.getElementById(unId).value) == false || document.getElementById(unId).value.length == 10)
+  if (regex.test(document.getElementById(unId).value) == false || document.getElementById(unId).value.length != 10)
   {
     document.getElementById("groupe-"+unId).className="input-group input-group-lg has-error";
     return false;
