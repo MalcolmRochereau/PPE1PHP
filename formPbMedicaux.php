@@ -29,20 +29,23 @@
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-10">
-
+	<form id="ajoutProblemes" action="" method="POST">
 	<?php
 		if(count($_POST)>0)
 		{
 			try
 			{
-				$req = $bdd->prepare('INSERT INTO probleme(date, commentaire,idMaladie,idMedicament,idPatient,idProfessionnelDeSante) VALUES(:date, :commentaire,  :idMaladie, :idMedicament, :idPatient, :idProfessionnelDeSante) ');
+				$req = $bdd->prepare('INSERT INTO probleme(dateProbleme,idGravite,commentaire,matriculePro,idMaladie,idPatient,idMedicament) VALUES(:dateProbleme,:idGravite, :commentaire, :matriculePro,  :idMaladie, :idPatient, :idMedicament) ');
 				$req->execute(array(
-					'date' => $_POST['datepicker'],
+					'dateProbleme' => $_POST['datepicker'],
 					'commentaire' => $_POST['commentaire'],
 					'idMaladie' => $_POST['maladie'],
 					'idMedicament' => $_POST['medicament'],
-					'idPatient' => '1',
-					'idProfessionnelDeSante' =>  '1'
+					'idGravite' =>  $_POST['idGravite'],
+					'idPatient' => $_POST['patient'],
+					'matriculePro' => 'P001',
+					
+					
 				));
 				
 				echo 'Le problème a bien éte ajouté.';
@@ -54,23 +57,38 @@
 		}
     ?>
 	
-			<p>Veuillez nous préciser la date de la survenue du problemes :<input type="text" name="datepicker" id="datepicker"></p>
+			<p>Veuillez nous préciser la date de la survenue du probleme(yy-mm-dd) :<input type="date" name="datepicker" id="datepicker"></p>
 			<br>Entrer un commentaire <br>
-			<textarea id="commentaire" name="commentaire" cols="40" rows="5" /></textarea>
+			<textarea id="commentaire" name="commentaire" cols="40" rows="5"/></textarea>
 			<br>
-			Veuillez nous préciser votre maladie :
+			Veuillez nous préciser la maladie :
 			<select name="maladie" id="maladie">
 				<option selected="selected"></option>
 				<?php
 					$result=$bdd->query('select * from maladie');
 					while($ligne = $result->fetch())
 					{	
-						echo "<option value=".$ligne['id']." selected='selected' >".$ligne['libelle']."</option>";
+						echo "<option value=".$ligne['id']."  >".$ligne['libelle']."</option>";
 					}
 				?>
 	
 			</select>
-			<br></br>Veuillez nous préciser vos médicaments :
+			
+			<br></br>Veuillez nous préciser la gravité du problème :
+			<select name="idGravite" id="idGravite">
+				<option selected="selected"></option>
+				
+				<?php
+					$result=$bdd->query('select * from gravite_probleme');
+					while($ligne = $result->fetch())
+					{	
+						echo "<option value=".$ligne['id']."  >".$ligne['libelle']."</option>";
+					}
+				?>
+	
+			</select>
+			
+			<br></br>Veuillez nous préciser le médicament :
 			<select name="medicament" id="medicament">
 				<option selected="selected"></option>
 				
@@ -78,7 +96,22 @@
 					$result=$bdd->query('select * from medicament');
 					while($ligne = $result->fetch())
 					{	
-						echo "<option value=".$ligne['id']." selected='selected' >".$ligne['libelle']."</option>";
+						echo "<option value=".$ligne['CIP']."  >".$ligne['denomination']."</option>";
+						
+					}
+				?>
+	
+			</select>
+			
+			<br></br>Veuillez nous préciser le patient :
+			<select name="patient" id="patient">
+				<option selected="selected"></option>
+				
+				<?php
+					$result=$bdd->query('select * from patient');
+					while($ligne = $result->fetch())
+					{	
+						echo "<option value=".$ligne['id']."  >".$ligne['nom']." ".$ligne['prenom']."</option>";
 					}
 				?>
 	
@@ -87,7 +120,7 @@
 		</fieldset>
 		<br><br><br><input type="submit" name="nom" value="Valider" >
 	</form>
-</div>
+ </div>
                 </div> 
             </center>
         </div>
