@@ -27,7 +27,7 @@
                         <h2> Utilisateurs <br><br>
     
         <?php 
-            $requete = "SELECT nom, prenom, numSecuSoc, probleme.date, commentaire FROM probleme, patient WHERE probleme.idPatient = patient.id";
+            $requete = "SELECT * FROM v_utilisateurs";
             $result = $bdd->query($requete);
         ?>
             <table border="1" id="AfficherProbleme">
@@ -45,7 +45,23 @@
                     </th>
 
                     <th>
-                        E-miel
+                        E-mail
+                    </th>
+
+                    <th>
+                        Identifiant
+                    </th>
+
+                    <th>
+                        Mot de passe
+                    </th>
+
+                    <th>
+                        Rue
+                    </th>
+
+                    <th>
+                        Code postal
                     </th>
 
                     <th>
@@ -53,7 +69,15 @@
                     </th>
 
                     <th>
-                        Type d'utilisateur
+                        Catégorie
+                    </th>
+
+                    <th>
+                        Matricule
+                    </th>
+
+                    <th>
+                        Région
                     </th>
 
                     
@@ -65,18 +89,6 @@
             
                 echo "<tr>";
                     echo "<td>";
-                        echo $ligne["date"];
-                    echo "</td>";
-
-                    echo "<td>";
-                        echo $ligne["commentaire"];
-                    echo "</td>";
-
-                    echo "<td>";
-                        echo $ligne["idMaladie"];
-                    echo "</td>";
-                    
-                    echo "<td>";
                         echo $ligne["nom"];
                     echo "</td>";
 
@@ -85,7 +97,43 @@
                     echo "</td>";
 
                     echo "<td>";
-                        echo $ligne["numSecuSoc"];
+                        echo $ligne["tel"];
+                    echo "</td>";
+                    
+                    echo "<td>";
+                        echo $ligne["mail"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["identifiant"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["mdp"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["rue"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["cp"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["role"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["categorie"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["matriculeVisiteur"];
+                    echo "</td>";
+
+                    echo "<td>";
+                        echo $ligne["region"];
                     echo "</td>";
 
                     
