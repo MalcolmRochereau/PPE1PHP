@@ -17,6 +17,29 @@ body{
   padding-left: 0px;
 }
 
+table {
+	text-align: center;
+	vertical-align: middle;
+	border: 0;
+}
+
+td {
+	padding: 10px;
+	border: 5px #666666 solid;
+}
+
+tr.intitule {
+	font-weight: bold;
+	color: #6c6c6c;
+}
+
+tr:not(.intitule):hover{
+	/*background: url(../images/fondTitre.png) no-repeat top;*/
+	background-color: #99caff;
+	color: black;
+	font-weight: bold;
+}
+
 .caret{
   border-top: 4px solid;
 }

@@ -1,7 +1,4 @@
-﻿<!-- Navbar invisible pour éviter que le site passe sous la navbar principale -->
-<nav class="navbar"></nav>
-
-<!-- Navbar principale -->
+﻿<!-- Navbar principale -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -23,12 +20,10 @@
 				<li><a href="ConsultationProbleme.php">Afficher les problèmes</a></li>
 				<li><a href="formPbMedicaux.php">Ajouter un problème</a></li>
 				<li><a href="ConsultationMedicament.php">Afficher les médicaments</a></li>
-				<li><a href="ConsultationUtilisateur.php">Afficher les utilisateurs</a></li>
 				<!-- à compléter dynamiquement -->
 			</ul>
 			<!-- items de la navbar à partir de la droite -->
 			<ul class="nav navbar-nav navbar-right">
-				<li><?php echo $_SESSION['role']; ?></li>
 				<!-- bouton pour se connecter -->
 				<li><a href="connexion.php">Se connecter</a></li>
 				<!-- bouton pour s'inscrire -->

@@ -39,35 +39,35 @@ session_start();
             $result = $bdd->query($requete);
         ?>
 		
-            <table border="1" id="AfficherProbleme">
-                <tr>
-                    <th>
+            <table id="AfficherProbleme">
+                <tr class="intitule">
+                    <td>
                         Date du problème
-                    </th>
+                    </td>
 
-                    <th>
+                    <td>
                         Commentaire
-                    </th>
+                    </td>
 
-                    <th>
+                    <td>
                         Maladie suspectée
-                    </th>
+                    </td>
 
-                    <th>
+                    <td>
                         Nom du patient
-                    </th>
+                    </td>
 
-                    <th>
+                    <td>
                         Prénom du patient
-                    </th>
+                    </td>
 
-                    <th>
+                    <td>
                         Numéro du médicament
-                    </th>
+                    </td>
 					
-					<th>
+					<td>
                         Gravité du problème
-                    </th>
+                    </td>
 					
 				</tr>
 		
