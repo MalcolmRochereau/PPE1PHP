@@ -3,7 +3,7 @@
 	try
 	{
 		// création et stockage de la connexion à la base de données : host=|HÔTE| - dbname=|NOM DE LA BDD| - charset=|CARACTERES| - |IDENTIFIANT| - |MDP|
-		$bdd = new PDO('mysql:host=localhost;dbname=problemesmedicaux;charset=utf8', 'root', '');
+		$bdd = new PDO('mysql:host=localhost;dbname=gestionprobleme;charset=utf8', 'root', '');
 		// Activation des erreurs PDO
 		$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
