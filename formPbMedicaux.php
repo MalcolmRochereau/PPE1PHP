@@ -1,33 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-	<meta charset="utf-8">
-	<title>jQuery UI Datepicker - Default functionality</title>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<!--<link rel="stylesheet" href="css/calendrier.css" type="text/css" />-->
-<script type="text/javascript" src="js/jquery-2.1.3.js"></script> 
-<script type="text/javascript" src="js/jquery-ui.js"></script>
+    <meta charset="utf-8" >
+    <link rel="stylesheet" href="css\bootstrap.css" >
+    <link rel="stylesheet" href="css\style.css" >
+    <title>Formulaire</title>
+    <script src="js\jquery.js"></script>
+    <script src="js\bootstrap.js"></script>
+    <script src="js\fonctions.js"></script>
 	<script>
 		$(function() {
 			$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
 		});
 	</script>
-	<?php include("includes/AccesBDD.php"); ?>
 </head>
 <body>
+    <?php 
+    include("includes/navbar.php");
+    include("includes/accesBDD.php");
+    $sessiontempo = 0;
+    ?>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="milieu">
+            <center>
+                <div class="titreForm">Ajout d'un problème médical</div>
+                <img src="images/fondTitre.png" alt="" class="imageTitre">
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+	<form id="ajoutProblemes" action="" method="POST">
 	<?php
 		if(count($_POST)>0)
 		{
 			try
 			{
-				$req = $bdd->prepare('INSERT INTO probleme(date, commentaire,idMaladie,idMedicament,idPatient,idProfessionnelDeSante) VALUES(:date, :commentaire,  :idMaladie, :idMedicament, :idPatient, :idProfessionnelDeSante) ');
+				$req = $bdd->prepare('INSERT INTO probleme(dateProbleme,idGravite,commentaire,matriculePro,idMaladie,idPatient,idMedicament) VALUES(:dateProbleme,:idGravite, :commentaire, :matriculePro,  :idMaladie, :idPatient, :idMedicament) ');
 				$req->execute(array(
-					'date' => $_POST['datepicker'],
+					'dateProbleme' => $_POST['datepicker'],
 					'commentaire' => $_POST['commentaire'],
 					'idMaladie' => $_POST['maladie'],
 					'idMedicament' => $_POST['medicament'],
-					'idPatient' => '1',
-					'idProfessionnelDeSante' =>  '1'
+					'idGravite' =>  $_POST['idGravite'],
+					'idPatient' => $_POST['patient'],
+					'matriculePro' => 'P001',
+					
+					
 				));
 				
 				echo 'Le problème a bien éte ajouté.';
@@ -38,28 +56,39 @@
 			}
 		}
     ?>
-	<h3>Saisie des problemes</h3>
-	<br><br>
-	<form action="" method="POST">
-		<fieldset>
-			<legend><span class="saisieprob"><b>Saisie des probleme</b></span></legend>
-			<p>Veuillez nous préciser la date de la survenue du problemes :<input type="text" name="datepicker" id="datepicker"></p>
+	
+			<p>Veuillez nous préciser la date de la survenue du probleme(yy-mm-dd) :<input type="date" name="datepicker" id="datepicker"></p>
 			<br>Entrer un commentaire <br>
-			<textarea id="commentaire" name="commentaire" cols="40" rows="5" /></textarea>
+			<textarea id="commentaire" name="commentaire" cols="40" rows="5"/></textarea>
 			<br>
-			Veuillez nous préciser votre maladie :
+			Veuillez nous préciser la maladie :
 			<select name="maladie" id="maladie">
 				<option selected="selected"></option>
 				<?php
 					$result=$bdd->query('select * from maladie');
 					while($ligne = $result->fetch())
 					{	
-						echo "<option value=".$ligne['id']." selected='selected' >".$ligne['libelle']."</option>";
+						echo "<option value=".$ligne['id']."  >".$ligne['libelle']."</option>";
 					}
 				?>
 	
 			</select>
-			<br></br>Veuillez nous préciser vos médicaments :
+			
+			<br></br>Veuillez nous préciser la gravité du problème :
+			<select name="idGravite" id="idGravite">
+				<option selected="selected"></option>
+				
+				<?php
+					$result=$bdd->query('select * from gravite_probleme');
+					while($ligne = $result->fetch())
+					{	
+						echo "<option value=".$ligne['id']."  >".$ligne['libelle']."</option>";
+					}
+				?>
+	
+			</select>
+			
+			<br></br>Veuillez nous préciser le médicament :
 			<select name="medicament" id="medicament">
 				<option selected="selected"></option>
 				
@@ -67,7 +96,22 @@
 					$result=$bdd->query('select * from medicament');
 					while($ligne = $result->fetch())
 					{	
-						echo "<option value=".$ligne['id']." selected='selected' >".$ligne['libelle']."</option>";
+						echo "<option value=".$ligne['CIP']."  >".$ligne['denomination']."</option>";
+						
+					}
+				?>
+	
+			</select>
+			
+			<br></br>Veuillez nous préciser le patient :
+			<select name="patient" id="patient">
+				<option selected="selected"></option>
+				
+				<?php
+					$result=$bdd->query('select * from patient');
+					while($ligne = $result->fetch())
+					{	
+						echo "<option value=".$ligne['id']."  >".$ligne['nom']." ".$ligne['prenom']."</option>";
 					}
 				?>
 	
@@ -76,6 +120,11 @@
 		</fieldset>
 		<br><br><br><input type="submit" name="nom" value="Valider" >
 	</form>
-	
+ </div>
+                </div> 
+            </center>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
 </body>
 </html>
