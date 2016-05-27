@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,13 +30,19 @@
                         <h2>Liste de problèmes <br><br>
     
         <?php 
-            $requete = "SELECT nom, prenom, numSecuSoc, probleme.date, commentaire FROM probleme, patient WHERE probleme.idPatient = patient.id";
+            $requete = "SELECT date, commentaire, maladie.libelle AS libelleMaladie, nom, prenom, denomination, gravite_probleme.libelle AS libelleGravite
+						FROM probleme
+						JOIN patient ON probleme.idPatient = patient.id
+						JOIN maladie ON maladie.id = probleme.idMaladie
+						JOIN medicament ON medicament.CIP = probleme.idMedicament
+						JOIN gravite_probleme ON gravite_probleme.id = probleme.idGravite";
             $result = $bdd->query($requete);
         ?>
+		
             <table border="1" id="AfficherProbleme">
                 <tr>
                     <th>
-                        date du problème
+                        Date du problème
                     </th>
 
                     <th>
@@ -53,12 +62,15 @@
                     </th>
 
                     <th>
-                        Numéro de sécurité sociale
+                        Numéro du médicament
                     </th>
-
-                    
-                </tr>
-
+					
+					<th>
+                        Gravité du problème
+                    </th>
+					
+				</tr>
+		
         <?php
             while($ligne = $result->fetch())
             {
@@ -73,7 +85,7 @@
                     echo "</td>";
 
                     echo "<td>";
-                        echo $ligne["idMaladie"];
+                        echo $ligne["libelleMaladie"];
                     echo "</td>";
                     
                     echo "<td>";
@@ -85,7 +97,11 @@
                     echo "</td>";
 
                     echo "<td>";
-                        echo $ligne["numSecuSoc"];
+                        echo $ligne["denomination"];
+                    echo "</td>";
+					
+					echo "<td>";
+                        echo $ligne["libelleGravite"];
                     echo "</td>";
 
                     
