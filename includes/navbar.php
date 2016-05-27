@@ -28,6 +28,7 @@
 			</ul>
 			<!-- items de la navbar à partir de la droite -->
 			<ul class="nav navbar-nav navbar-right">
+				<li><?php $_SESSION['role']; ?></li>
 				<!-- bouton pour se connecter -->
 				<li><a href="connexion.php">Se connecter</a></li>
 				<!-- bouton pour s'inscrire -->
