@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,7 +16,6 @@
     <?php 
     include("includes/navbar.php");
     include("includes/accesBDD.php");
-    $sessiontempo = 0;
     ?>
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
@@ -31,19 +33,38 @@
                         {
                             try
                             {
-                                $req = $bdd->prepare('INSERT INTO utilisateur(nom, prenom, tel, mail, identifiant, mdp, idProfil) VALUES(:nom, :prenom, :tel, :mail, :ident, :mdp, :idProfil)');
-                                $req->execute(array(
-                                    'nom' => $_POST['nom'],
-                                    'prenom' => $_POST['prenom'],
-                                    'tel' => $_POST['tel'],
-                                    'mail' => $_POST['mail'],
-                                    'ident' => $_POST['ident'],
-                                    'mdp' => $_POST['mdp'],
-                                    'idProfil' => '2'
-                                ));
-                                if($sessiontempo != 0)
+                                if($_SESSION['role'] == "visiteur")
                                 {
-                                    //problème, besoin d'utiliser l'id auto-incrémenté d'en haut pour le mettre dans la table correspondant à la catégorie de l'utilisateur
+                                    $req = $bdd->prepare('INSERT INTO visiteur(matricule, nom, prenom, numeroTel, mail, identifiant, mdp, idRole) VALUES(:id, :nom, :prenom, :tel, :mail, :ident, :mdp, :idRole)');
+                                    $req->execute(array(
+                                        'id' => '',
+                                        'nom' => $_POST['nom'],
+                                        'prenom' => $_POST['prenom'],
+                                        'tel' => $_POST['tel'],
+                                        'mail' => $_POST['mail'],
+                                        'ident' => $_POST['ident'],
+                                        'mdp' => $_POST['mdp'],
+                                        'idRole' => $_SESSION['idRole']
+                                        ));
+                                }
+                                else
+                                {
+                                    $req = $bdd->prepare('INSERT INTO professionnel_sante(matricule, nom, prenom, numeroTel, mail, identifiant, mdp, idRole, rueCabinet, cpCabinet, villeCabinet, matriculeVisiteur, idCategorie) VALUES(:id, :nom, :prenom, :tel, :mail, :ident, :mdp, :idRole, :rue, :cp, :ville, :visiteur, :categ)');
+                                    $req->execute(array(
+                                        'id' => '',
+                                        'nom' => $_POST['nom'],
+                                        'prenom' => $_POST['prenom'],
+                                        'tel' => $_POST['tel'],
+                                        'mail' => $_POST['mail'],
+                                        'ident' => $_POST['ident'],
+                                        'mdp' => $_POST['mdp'],
+                                        'idRole' => $_SESSION['idRole'],
+                                        'rue' => $_SESSION['idRole'],
+                                        'cp' => $_SESSION['idRole'],
+                                        'ville' => $_SESSION['idRole'],
+                                        'visiteur' => $_SESSION['idRole'],
+                                        'categ' => $_SESSION['idRole']
+                                        ));
                                 }
                                 echo 'L\'utilisateur a bien ete ajoute.';
                             }
@@ -81,16 +102,25 @@
                             </div><br>
                             <?php
                                     // session_start();
-                            if ($sessiontempo != 0/*$_SESSION['???'] == 'Professionel de santé'*/)
+                            if ($_SESSION['role'] == "visiteur")
                             {
                                 ?>
-                                <hr>
-                                <div class="proSante">
-                                    rue : <input type="text" name="rue"><br><br>
-                                    ville : <input type="text" name="ville"><br><br>
-                                    CP : <input type="text" name="cp"><br><br>
-                                    Catégorie : <input type="text" name="categ">
-                                </div> 
+                                <div class="input-group input-group-lg" id="groupe-rue">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" name="rue" id="rue" onblur="verifTexte('rue')" placeholder="Rue du cabinet..." aria-describedby="basic-addon1 onblur="" ">
+                                </div><br><br>
+                                <div class="input-group input-group-lg" id="groupe-cp">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" name="cp" id="cp" onblur="verifTexte('cp')" placeholder="Code postal du cabinet..." aria-describedby="basic-addon1 onblur="" ">
+                                </div><br><br>
+                                <div class="input-group input-group-lg" id="groupe-nom">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1 onblur="" ">
+                                </div><br><br>
+                                <div class="input-group input-group-lg" id="groupe-nom">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1 onblur="" ">
+                                </div><br><br>
                                 <?php
                             }
                             ?>

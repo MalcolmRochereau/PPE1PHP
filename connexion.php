@@ -49,6 +49,7 @@ session_start();
                             $ligne = $req->fetch();
                             if(sha1($_POST['password'] == $ligne['mdp']))
                             {
+                                $_SESSION['idRole'] = $ligne['idRole'];
                                 $_SESSION['role'] = $ligne['role'];
                                 $_SESSION['id'] = $ligne['id'];
                                 header('Location: index.php');
