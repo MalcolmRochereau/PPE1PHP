@@ -47,11 +47,12 @@ session_start();
                        {
                             $req = $bdd->query('SELECT * FROM v_utilisateurs WHERE identifiant = "'.$_POST['pseudo'].'"');
                             $ligne = $req->fetch();
-                            if(sha1($_POST['password'] == $ligne['mdp']))
+                            if(sha1($_POST['password']) == $ligne['mdp'])
                             {
                                 $_SESSION['idRole'] = $ligne['idRole'];
                                 $_SESSION['role'] = $ligne['role'];
                                 $_SESSION['id'] = $ligne['id'];
+                                $_SESSION['region'] = $ligne['region'];
                                 header('Location: index.php');
                                 exit();
                             }

@@ -29,13 +29,23 @@ session_start();
                         <br>
                         <br><br><br>
                         <?php 
+                        $rep = $bdd->query("SELECT matriculeDelegue FROM region WHERE id = ".$_SESSION['region']);
+                        $ret = $rep->fetch();
+                        if ($ret["matriculeDelegue"] == $_SESSION["id"])
+                        {
+                            $delegue = true;
+                        }
+                        else
+                        {
+                            $delegue = false;
+                        }
                         if(count($_POST)>0)
                         {
                             try
                             {
-                                if($_SESSION['role'] == "visiteur")
+                                if($delegue == true)
                                 {
-                                    $req = $bdd->prepare('INSERT INTO visiteur(matricule, nom, prenom, numeroTel, mail, identifiant, mdp, idRole) VALUES(:id, :nom, :prenom, :tel, :mail, :ident, :mdp, :idRole)');
+                                    $req = $bdd->prepare('INSERT INTO visiteur(matricule, nom, prenom, numeroTel, mail, identifiant, mdp, idRole, idRegion) VALUES(:id, :nom, :prenom, :tel, :mail, :ident, :mdp, :idRole, :region)');
                                     $req->execute(array(
                                         'id' => '',
                                         'nom' => $_POST['nom'],
@@ -43,8 +53,9 @@ session_start();
                                         'tel' => $_POST['tel'],
                                         'mail' => $_POST['mail'],
                                         'ident' => $_POST['ident'],
-                                        'mdp' => $_POST['mdp'],
-                                        'idRole' => $_SESSION['idRole']
+                                        'mdp' => sha1($_POST['mdp']),
+                                        'idRole' => $_SESSION['idRole'],
+                                        'region' => $_SESSION['region']
                                         ));
                                 }
                                 else
@@ -57,13 +68,13 @@ session_start();
                                         'tel' => $_POST['tel'],
                                         'mail' => $_POST['mail'],
                                         'ident' => $_POST['ident'],
-                                        'mdp' => $_POST['mdp'],
+                                        'mdp' => sha1($_POST['mdp']),
                                         'idRole' => $_SESSION['idRole'],
-                                        'rue' => $_SESSION['idRole'],
-                                        'cp' => $_SESSION['idRole'],
-                                        'ville' => $_SESSION['idRole'],
-                                        'visiteur' => $_SESSION['idRole'],
-                                        'categ' => $_SESSION['idRole']
+                                        'rue' => $_POST['rue'],
+                                        'cp' => $_POST['cp'],
+                                        'ville' => $_POST['ville'],
+                                        'visiteur' => $_SESSION['id'],
+                                        'categ' => $_POST['idCateg']
                                         ));
                                 }
                                 echo 'L\'utilisateur a bien ete ajoute.';
@@ -75,7 +86,6 @@ session_start();
                         }
                         ?>
                         <form id="ajoutUtilisateur" action="" method="POST">
-
                             <div class="input-group input-group-lg" id="groupe-nom">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                 <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1 onblur="" ">
@@ -101,25 +111,37 @@ session_start();
                                 <input type="password" class="form-control" name="mdp" id="mdp" onblur="verifTexte('mdp')" placeholder="Mot de passe..." aria-describedby="basic-addon1">
                             </div><br>
                             <?php
-                                    // session_start();
-                            if ($_SESSION['role'] == "visiteur")
+                            // session_start();
+                            if ($delegue == false)
                             {
                                 ?>
+                                <br>
                                 <div class="input-group input-group-lg" id="groupe-rue">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" name="rue" id="rue" onblur="verifTexte('rue')" placeholder="Rue du cabinet..." aria-describedby="basic-addon1 onblur="" ">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <input type="text" class="form-control" name="rue" id="rue" onblur="verifTexte('rue')" placeholder="Rue du cabinet..." aria-describedby="basic-addon1">
                                 </div><br><br>
                                 <div class="input-group input-group-lg" id="groupe-cp">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" name="cp" id="cp" onblur="verifTexte('cp')" placeholder="Code postal du cabinet..." aria-describedby="basic-addon1 onblur="" ">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <input type="text" class="form-control" name="cp" id="cp" onblur="verifTexte('cp')" placeholder="Code postal du cabinet..." aria-describedby="basic-addon1">
                                 </div><br><br>
-                                <div class="input-group input-group-lg" id="groupe-nom">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1 onblur="" ">
+                                <div class="input-group input-group-lg" id="groupe-ville">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <input type="text" class="form-control" name="ville" id="ville" onblur="verifTexte('ville')" placeholder="Ville du cabinet..." aria-describedby="basic-addon1">
                                 </div><br><br>
+                                
                                 <div class="input-group input-group-lg" id="groupe-nom">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1 onblur="" ">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <select id="idCateg" name="idCateg" class="form-control">
+                                        <?php
+                                        $req = $bdd->query("SELECT * FROM categorie_pro");
+                                        while ($ligne = $req->fetch()) {
+                                            ?>
+                                            <option value=<?php echo $ligne["id"]; ?>><?php echo $ligne["libelle"]; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1"> -->
                                 </div><br><br>
                                 <?php
                             }
