@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,7 +16,6 @@
     <?php 
     include("includes/navbar.php");
     include("includes/accesBDD.php");
-    $sessiontempo = 0;
     ?>
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
@@ -27,23 +29,53 @@
                         <br>
                         <br><br><br>
                         <?php 
+                        $rep = $bdd->query("SELECT matriculeDelegue FROM region WHERE id = ".$_SESSION['region']);
+                        $ret = $rep->fetch();
+                        if ($ret["matriculeDelegue"] == $_SESSION["id"])
+                        {
+                            $delegue = true;
+                        }
+                        else
+                        {
+                            $delegue = false;
+                        }
                         if(count($_POST)>0)
                         {
                             try
                             {
-                                $req = $bdd->prepare('INSERT INTO utilisateur(nom, prenom, tel, mail, identifiant, mdp, idProfil) VALUES(:nom, :prenom, :tel, :mail, :ident, :mdp, :idProfil)');
-                                $req->execute(array(
-                                    'nom' => $_POST['nom'],
-                                    'prenom' => $_POST['prenom'],
-                                    'tel' => $_POST['tel'],
-                                    'mail' => $_POST['mail'],
-                                    'ident' => $_POST['ident'],
-                                    'mdp' => $_POST['mdp'],
-                                    'idProfil' => '2'
-                                ));
-                                if($sessiontempo != 0)
+                                if($delegue == true)
                                 {
-                                    //problème, besoin d'utiliser l'id auto-incrémenté d'en haut pour le mettre dans la table correspondant à la catégorie de l'utilisateur
+                                    $req = $bdd->prepare('INSERT INTO visiteur(matricule, nom, prenom, numeroTel, mail, identifiant, mdp, idRole, idRegion) VALUES(:id, :nom, :prenom, :tel, :mail, :ident, :mdp, :idRole, :region)');
+                                    $req->execute(array(
+                                        'id' => '',
+                                        'nom' => $_POST['nom'],
+                                        'prenom' => $_POST['prenom'],
+                                        'tel' => $_POST['tel'],
+                                        'mail' => $_POST['mail'],
+                                        'ident' => $_POST['ident'],
+                                        'mdp' => sha1($_POST['mdp']),
+                                        'idRole' => $_SESSION['idRole'],
+                                        'region' => $_SESSION['region']
+                                        ));
+                                }
+                                else
+                                {
+                                    $req = $bdd->prepare('INSERT INTO professionnel_sante(matricule, nom, prenom, numeroTel, mail, identifiant, mdp, idRole, rueCabinet, cpCabinet, villeCabinet, matriculeVisiteur, idCategorie) VALUES(:id, :nom, :prenom, :tel, :mail, :ident, :mdp, :idRole, :rue, :cp, :ville, :visiteur, :categ)');
+                                    $req->execute(array(
+                                        'id' => '',
+                                        'nom' => $_POST['nom'],
+                                        'prenom' => $_POST['prenom'],
+                                        'tel' => $_POST['tel'],
+                                        'mail' => $_POST['mail'],
+                                        'ident' => $_POST['ident'],
+                                        'mdp' => sha1($_POST['mdp']),
+                                        'idRole' => $_SESSION['idRole'],
+                                        'rue' => $_POST['rue'],
+                                        'cp' => $_POST['cp'],
+                                        'ville' => $_POST['ville'],
+                                        'visiteur' => $_SESSION['id'],
+                                        'categ' => $_POST['idCateg']
+                                        ));
                                 }
                                 echo 'L\'utilisateur a bien ete ajoute.';
                             }
@@ -54,7 +86,6 @@
                         }
                         ?>
                         <form id="ajoutUtilisateur" action="" method="POST">
-
                             <div class="input-group input-group-lg" id="groupe-nom">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                                 <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1 onblur="" ">
@@ -80,17 +111,38 @@
                                 <input type="password" class="form-control" name="mdp" id="mdp" onblur="verifTexte('mdp')" placeholder="Mot de passe..." aria-describedby="basic-addon1">
                             </div><br>
                             <?php
-                                    // session_start();
-                            if ($sessiontempo != 0/*$_SESSION['???'] == 'Professionel de santé'*/)
+                            // session_start();
+                            if ($delegue == false)
                             {
                                 ?>
-                                <hr>
-                                <div class="proSante">
-                                    rue : <input type="text" name="rue"><br><br>
-                                    ville : <input type="text" name="ville"><br><br>
-                                    CP : <input type="text" name="cp"><br><br>
-                                    Catégorie : <input type="text" name="categ">
-                                </div> 
+                                <br>
+                                <div class="input-group input-group-lg" id="groupe-rue">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <input type="text" class="form-control" name="rue" id="rue" onblur="verifTexte('rue')" placeholder="Rue du cabinet..." aria-describedby="basic-addon1">
+                                </div><br><br>
+                                <div class="input-group input-group-lg" id="groupe-cp">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <input type="text" class="form-control" name="cp" id="cp" onblur="verifTexte('cp')" placeholder="Code postal du cabinet..." aria-describedby="basic-addon1">
+                                </div><br><br>
+                                <div class="input-group input-group-lg" id="groupe-ville">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <input type="text" class="form-control" name="ville" id="ville" onblur="verifTexte('ville')" placeholder="Ville du cabinet..." aria-describedby="basic-addon1">
+                                </div><br><br>
+                                
+                                <div class="input-group input-group-lg" id="groupe-nom">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <select id="idCateg" name="idCateg" class="form-control">
+                                        <?php
+                                        $req = $bdd->query("SELECT * FROM categorie_pro");
+                                        while ($ligne = $req->fetch()) {
+                                            ?>
+                                            <option value=<?php echo $ligne["id"]; ?>><?php echo $ligne["libelle"]; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <!-- <input type="text" class="form-control" name="nom" id="nom" onblur="verifTexte('nom')" placeholder="Nom..." aria-describedby="basic-addon1"> -->
+                                </div><br><br>
                                 <?php
                             }
                             ?>
