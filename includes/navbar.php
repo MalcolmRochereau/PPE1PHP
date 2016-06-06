@@ -19,7 +19,7 @@
 				<li><a href="SelectMedic.php">Affichage médicaments</a></li>
 				<li><a href="ConsultationProbleme.php">Afficher les problèmes</a></li>
 				<li><a href="formPbMedicaux.php">Ajouter un problème</a></li>
-				<li><a href="ConsultationMedicament.php">Afficher les médicaments</a></li>
+				<li><a href="ConsultationUtilisateur.php">Afficher les utilisateurs</a></li>
 				<!-- à compléter dynamiquement -->
 			</ul>
 			<!-- items de la navbar à partir de la droite -->
