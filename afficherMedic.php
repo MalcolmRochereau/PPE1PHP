@@ -37,7 +37,7 @@
                                   </tr>
                                   
                                   <?php
-                                  $reponse = $bdd->query('SELECT date, commentaire, libelle, nom, prenom, numSecu FROM probleme, maladie, patient WHERE patient.id = probleme.idPatient AND maladie.id = probleme.idMaladie');
+                                  $reponse = $bdd->query('SELECT date, commentaire, libelle, nom, prenom, numSecu FROM probleme, maladie, patient, medicament WHERE patient.id = probleme.idPatient AND maladie.id = probleme.idMaladie AND probleme.idMedicament = medicament.CIP AND medicament.CIP ='.$_POST['medic']);
                                   while($row = $reponse->fetch())
                                   {
                                    echo "<tr><td>".$row['date']."</td><td>".$row['commentaire']."</td><td>".$row['libelle']."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecu']."</td></tr>";
