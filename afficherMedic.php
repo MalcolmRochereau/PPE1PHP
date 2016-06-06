@@ -24,35 +24,34 @@
                 <div class="row">
                     <div class="col-sm-1"></div>
                     <div class="col-sm-10">
-                    <h2>Affichage des problèmes liés au médicament<br><br>
-                        <form id="afficherMedic" action="afficherMedic.php" method="POST">
-                            <table>
-                            	<tr>
-                            		<th>Date du probleme</th>
-									<th>Nom du patient</th>
-									<th>Prenom du patient</th>
-									<th>Numéro de sécurité sociale</th>
-									<th>Maladie</th>
-									<th>Commentaire</th>
-                            	</tr>
-                            
-							<?php
-								$reponse = $bdd->query('SELECT date, commentaire, libelle, nom, prenom, numSecuSoc FROM probleme, maladie, patient WHERE patient.id = probleme.idPatient AND maladie.id = probleme.idMaladie');
-								while($row = $reponse->fetch())
-								{
-									echo "<tr><td>".$row['date']."</td><td>".$row['commentaire']."</td><td>".$row['libelle']."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecuSoc']."</td></tr>";
-								}
-								$reponse->closeCursor();
-							?>
-                            <input type="submit" name="validation" value="Afficher">
-</table>
-                        </form>
-                    </h2>
-                </div>
-                </div> 
-            </center>
-        </div>
-    </div>
-    <div class="col-sm-1"></div>
+                        <h2>Affichage des problèmes liés au médicament<br><br>
+                            <form id="afficherMedic" action="afficherMedic.php" method="POST">
+                                <table>
+                                   <tr class="intitule">
+                                      <th>Date du probleme</th>
+                                      <th>Nom du patient</th>
+                                      <th>Prenom du patient</th>
+                                      <th>Numéro de sécurité sociale</th>
+                                      <th>Maladie</th>
+                                      <th>Commentaire</th>
+                                  </tr>
+                                  
+                                  <?php
+                                  $reponse = $bdd->query('SELECT date, commentaire, libelle, nom, prenom, numSecu FROM probleme, maladie, patient WHERE patient.id = probleme.idPatient AND maladie.id = probleme.idMaladie');
+                                  while($row = $reponse->fetch())
+                                  {
+                                   echo "<tr><td>".$row['date']."</td><td>".$row['commentaire']."</td><td>".$row['libelle']."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecu']."</td></tr>";
+                               }
+                               $reponse->closeCursor();
+                               ?>
+                           </table>
+                       </form>
+                   </h2>
+               </div>
+           </div> 
+       </center>
+   </div>
+</div>
+<div class="col-sm-1"></div>
 </body>
 </html>

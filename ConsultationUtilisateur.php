@@ -22,16 +22,15 @@
                 <div class="titreForm">Les Utilisateurs</div>
                 <img src="images/fondTitre.png" alt="" class="imageTitre">
                 <div class="row">
-                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                         <h2> Utilisateurs <br><br>
     
         <?php 
             $requete = "SELECT * FROM v_utilisateurs";
             $result = $bdd->query($requete);
         ?>
-            <table border="1" id="AfficherProbleme">
-                <tr>
+            <table border="1" id="AfficherUtilisateurs">
+                <tr class="intitule">
                     <th>
                         Nom
                     </th>
@@ -50,10 +49,6 @@
 
                     <th>
                         Identifiant
-                    </th>
-
-                    <th>
-                        Mot de passe
                     </th>
 
                     <th>
@@ -106,10 +101,6 @@
 
                     echo "<td>";
                         echo $ligne["identifiant"];
-                    echo "</td>";
-
-                    echo "<td>";
-                        echo $ligne["mdp"];
                     echo "</td>";
 
                     echo "<td>";

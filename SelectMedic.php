@@ -22,7 +22,7 @@
 									$reponse = $bdd->query('SELECT * FROM medicament');
 									while($row = $reponse->fetch())
 									{
-										echo '<option value='.$row['id'].'>'.$row['libelle'].'</option>';
+										echo '<option value='.$row['CIP'].'>'.$row['denomination'].'</option>';
 									}
 									$reponse->closeCursor();
 								?>
