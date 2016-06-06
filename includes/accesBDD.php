@@ -13,4 +13,5 @@
 	    // retourner le messsage d'erreur
 	    die('Erreur : ' . $e->getMessage());
 	}
+	setlocale (LC_TIME, 'fr_FR.utf8','fra');
 ?>

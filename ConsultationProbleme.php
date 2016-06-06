@@ -16,6 +16,7 @@ session_start();
     <?php 
     include("includes/navbar.php");
     include("includes/accesBDD.php");
+    include("includes/fonctions.php");
     $sessiontempo = 0;
     ?>
     <div class="col-sm-1"></div>
@@ -77,7 +78,7 @@ session_start();
             
                 echo "<tr>";
                     echo "<td>";
-                        echo $ligne["date"];
+                        echo formatDate($ligne["date"]);
                     echo "</td>";
 
                     echo "<td>";

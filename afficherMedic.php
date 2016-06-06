@@ -13,6 +13,7 @@
     <?php 
     include("includes/navbar.php");
     include("includes/accesBDD.php");
+    include("includes/fonctions.php");
     $sessiontempo = 0;
     ?>
     <div class="col-sm-1"></div>
@@ -40,7 +41,7 @@
                                   $reponse = $bdd->query('SELECT date, commentaire, libelle, nom, prenom, numSecu FROM probleme, maladie, patient, medicament WHERE patient.id = probleme.idPatient AND maladie.id = probleme.idMaladie AND probleme.idMedicament = medicament.CIP AND medicament.CIP ='.$_POST['medic']);
                                   while($row = $reponse->fetch())
                                   {
-                                   echo "<tr><td>".$row['date']."</td><td>".$row['commentaire']."</td><td>".$row['libelle']."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecu']."</td></tr>";
+                                   echo "<tr><td>".formatDate($row['date'])."</td><td>".$row['commentaire']."</td><td>".$row['libelle']."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecu']."</td></tr>";
                                }
                                $reponse->closeCursor();
                                ?>
