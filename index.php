@@ -14,6 +14,7 @@ session_start();
 
 	<body>
 		<?php
+			include("includes/accesBDD.php");
 			// Appel de la navbar
 			include("includes/navbar.php");
 		?>

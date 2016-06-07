@@ -19,8 +19,8 @@ session_start();
 </head>
 <body>
     <?php 
-    include("includes/navbar.php");
     include("includes/accesBDD.php");
+    include("includes/navbar.php");
     $sessiontempo = 0;
     ?>
     <div class="col-sm-1"></div>

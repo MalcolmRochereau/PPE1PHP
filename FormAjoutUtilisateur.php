@@ -14,8 +14,8 @@ session_start();
 </head>
 <body>
     <?php 
-    include("includes/navbar.php");
     include("includes/accesBDD.php");
+    include("includes/navbar.php");
     ?>
     <div class="col-sm-1"></div>
     <div class="col-sm-10" style="min-height: 100%;">

@@ -15,17 +15,37 @@
 			<!-- items de la navbar à partir de la gauche -->
 			<ul class="nav navbar-nav navbar-left">
 				<!-- code temporaire -->
-				<li><a href="formAjoutUtilisateur.php">Formulaire d'ajout</a></li>
+				<!-- <li><a href="formAjoutUtilisateur.php">Formulaire d'ajout</a></li>
 				<li><a href="SelectMedic.php">Affichage médicaments</a></li>
 				<li><a href="ConsultationProbleme.php">Afficher les problèmes</a></li>
 				<li><a href="formPbMedicaux.php">Ajouter un problème</a></li>
-				<li><a href="ConsultationUtilisateur.php">Afficher les utilisateurs</a></li>
+				<li><a href="ConsultationUtilisateur.php">Afficher les utilisateurs</a></li> -->
+				<?php
+				if (isset($_SESSION["idRole"])) {
+					$req = $bdd->query('SELECT * FROM rolefonction JOIN fonctionnalites ON fonctionnalites.id = rolefonction.idFonctionnalite WHERE idRole = "'.$_SESSION['idRole'].'" ');
+					while($ligne = $req->fetch()) {
+						echo "<li><a href='".$ligne["nomFichier"].".php'>".$ligne["intitule"]."</a></li>";
+					}
+				}
+				?>
 				<!-- à compléter dynamiquement -->
 			</ul>
 			<!-- items de la navbar à partir de la droite -->
 			<ul class="nav navbar-nav navbar-right">
 				<!-- bouton pour se connecter -->
-				<li><a href="connexion.php">Se connecter</a></li>
+				<li>
+					<?php
+					if (isset($_SESSION['role'])) {
+						echo $_SESSION["role"]."/".$_SESSION["idRole"]."<a title='Déconnexion' href='connexion.php'>Connecté en tant que : ".$_SESSION['prenom']." ".$_SESSION['nom']."</a>"; 
+					}
+					else
+					{
+						?>
+						<a href="connexion.php">Se connecter</a>
+						<?php
+					}
+					?>
+				</li>
 				<!-- bouton pour s'inscrire -->
 				<!-- <li><a href="#">S'inscrire</a></li> -->
 			</ul>
