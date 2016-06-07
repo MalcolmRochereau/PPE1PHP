@@ -18,10 +18,22 @@ session_start();
     include("includes/accesBDD.php");
     ?>
     <div class="col-sm-1"></div>
-    <div class="col-sm-10">
+    <div class="col-sm-10" style="min-height: 100%;">
         <div class="milieu">
             <center>
-                <div class="titreForm">Ajout de visiteur</div>
+                <?php
+                $rep = $bdd->query("SELECT matriculeDelegue FROM region WHERE id = ".$_SESSION['region']);
+                $ret = $rep->fetch();
+                if ($ret["matriculeDelegue"] == $_SESSION["id"])
+                {
+                    $delegue = true;
+                }
+                else
+                {
+                    $delegue = false;
+                }
+                ?>
+                <div class="titreForm"><?php echo $delegue ? "Ajout de visiteur" : "Ajout de professionnel de santé" ?></div>
                 <img src="images/fondTitre.png" alt="" class="imageTitre">
                 <div class="row">
                     <div class="col-sm-1"></div>
@@ -29,16 +41,7 @@ session_start();
                         <br>
                         <br><br><br>
                         <?php 
-                        $rep = $bdd->query("SELECT matriculeDelegue FROM region WHERE id = ".$_SESSION['region']);
-                        $ret = $rep->fetch();
-                        if ($ret["matriculeDelegue"] == $_SESSION["id"])
-                        {
-                            $delegue = true;
-                        }
-                        else
-                        {
-                            $delegue = false;
-                        }
+                        
                         if(count($_POST)>0)
                         {
                             try
@@ -130,7 +133,7 @@ session_start();
                                 </div><br><br>
                                 
                                 <div class="input-group input-group-lg" id="groupe-nom">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-plus-sign"></span></span>
                                     <select id="idCateg" name="idCateg" class="form-control">
                                         <?php
                                         $req = $bdd->query("SELECT * FROM categorie_pro");
@@ -146,7 +149,7 @@ session_start();
                                 <?php
                             }
                             ?>
-                            <input type="submit" onclick="verifInfos()" name="validation" value="Inscrire">
+                            <input class="form-control" style="width: 10%;" type="submit" onclick="verifInfos()" name="validation" value="Inscrire">
                         </form>
                     </div>
                 </div> 

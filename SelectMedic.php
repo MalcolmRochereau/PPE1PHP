@@ -16,7 +16,7 @@
     $sessiontempo = 0;
     ?>
     <div class="col-sm-1"></div>
-    <div class="col-sm-10">
+    <div class="col-sm-10" style="min-height: 100%;">
         <div class="milieu">
             <center>
                 <div class="titreForm">Médicaments</div>

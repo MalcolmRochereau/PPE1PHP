@@ -18,7 +18,7 @@
     ?>
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
-        <div class="milieu">
+        <div class="milieu" style="min-height: 100%;">
             <center>
                 <div class="titreForm">Médicaments</div>
                 <img src="images/fondTitre.png" alt="" class="imageTitre">
@@ -41,7 +41,7 @@
                                   $reponse = $bdd->query('SELECT date, commentaire, libelle, nom, prenom, numSecu FROM probleme, maladie, patient, medicament WHERE patient.id = probleme.idPatient AND maladie.id = probleme.idMaladie AND probleme.idMedicament = medicament.CIP AND medicament.CIP ='.$_POST['medic']);
                                   while($row = $reponse->fetch())
                                   {
-                                   echo "<tr><td>".formatDate($row['date'])."</td><td>".$row['commentaire']."</td><td>".$row['libelle']."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecu']."</td></tr>";
+                                   echo "<tr><td>".formatDate($row['date'])."</td><td>".$row['nom']."</td><td>".$row['prenom']."</td><td>".$row['numSecu']."</td><td>".$row['libelle']."</td><td>".$row['commentaire']."</td></tr>";
                                }
                                $reponse->closeCursor();
                                ?>
