@@ -72,7 +72,7 @@ session_start();
                                         'mail' => $_POST['mail'],
                                         'ident' => $_POST['ident'],
                                         'mdp' => sha1($_POST['mdp']),
-                                        'idRole' => $_SESSION['idRole'],
+                                        'idRole' => '2',
                                         'rue' => $_POST['rue'],
                                         'cp' => $_POST['cp'],
                                         'ville' => $_POST['ville'],
